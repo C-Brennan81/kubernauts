@@ -6,7 +6,7 @@ import ShipMap from './ShipMap.jsx'
 import KLINKPanel from './KLINKPanel.jsx'
 import PDA from './PDA.jsx'
 import LevelBanner from './LevelBanner.jsx'
-import { sendCommand, getIdleComment } from '../api/gameApi.js'
+import { sendCommand, getIdleComment, getLeaderboard } from '../api/gameApi.js'
 
 const ALERT_COLOR = { GREEN: '#00ff88', YELLOW: '#ffd700', RED: '#ff4444' }
 const MULTIPLIER_COLOR = { 3: '#00ff88', 2: '#ffd700', 1: '#ff4444' }
@@ -19,6 +19,7 @@ export default function GameScreen({ session }) {
   )
   const [pdaOpen, setPdaOpen] = useState(false)
   const [levelBanner, setLevelBanner] = useState(null)
+  const [leaderboard, setLeaderboard] = useState(null)
   const stompRef = useRef(null)
   const idleTimerRef = useRef(null)
 
@@ -65,7 +66,13 @@ export default function GameScreen({ session }) {
 
   const handleCommand = async (cmd) => {
     const result = await sendCommand(sessionId, cmd)
-    if (result.state) setStationState(result.state)
+    if (result.state) {
+      setStationState(result.state)
+      // Show leaderboard when campaign completes (scenario advances past 20)
+      if (result.scenarioComplete && result.state.currentScenario >= 20) {
+        getLeaderboard().then(setLeaderboard)
+      }
+    }
     return result.output
   }
 
@@ -113,6 +120,30 @@ export default function GameScreen({ session }) {
 
       {pdaOpen && <PDA onClose={() => setPdaOpen(false)} />}
       {levelBanner && <LevelBanner level={levelBanner} onDone={() => setLevelBanner(null)} />}
+      {leaderboard && (
+        <div className="leaderboard-overlay" onClick={() => setLeaderboard(null)}>
+          <div className="leaderboard-panel" onClick={e => e.stopPropagation()}>
+            <div className="leaderboard-title">CAMPAIGN COMPLETE — TOP SCORES</div>
+            <table className="leaderboard-table">
+              <thead>
+                <tr><th>#</th><th>OPERATOR</th><th>SCORE</th></tr>
+              </thead>
+              <tbody>
+                {leaderboard.map((e, i) => (
+                  <tr key={e.id} className={e.playerName === stationState?.playerName ? 'lb-highlight' : ''}>
+                    <td>{i + 1}</td>
+                    <td>{e.playerName}</td>
+                    <td>{e.score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button className="tutorial-btn primary" style={{ marginTop: 16 }} onClick={() => setLeaderboard(null)}>
+              Continue to Incident Mode
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

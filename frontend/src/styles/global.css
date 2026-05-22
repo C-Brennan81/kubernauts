@@ -633,3 +633,58 @@ body {
   border-color: var(--border);
 }
 .tutorial-btn.secondary:hover { color: var(--text); border-color: var(--text-dim); }
+
+
+/* ── Leaderboard Overlay ────────────────────────────────────────────────── */
+.leaderboard-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leaderboard-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--green);
+  width: 480px;
+  max-width: 95vw;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.leaderboard-title {
+  font-size: 0.9rem;
+  color: var(--green);
+  letter-spacing: 0.12em;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.leaderboard-table th {
+  color: var(--text-dim);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.leaderboard-table td {
+  padding: 6px 8px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.leaderboard-table tr.lb-highlight td {
+  color: var(--green);
+}

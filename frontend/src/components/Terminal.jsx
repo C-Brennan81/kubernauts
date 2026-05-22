@@ -29,6 +29,13 @@ const COMPLETIONS = [
   'kubectl scale deployment life-support --replicas=2',
   'kubectl rollout undo deployment/crew-quarters',
   'kubectl cordon module-beta',
+  'kubectl exec crew-alpha-1 -- ls',
+  'kubectl exec nav-system-1 -- ls',
+  'kubectl label pod crew-alpha-1 env=prod',
+  'kubectl get events --field-selector involvedObject.name=crew-alpha-1',
+  'kubectl get events --field-selector involvedObject.name=life-support-1',
+  'kubectl rollout status deployment/crew-quarters',
+  'kubectl rollout status deployment/navigation',
 ]
 
 export default function Terminal({ onCommand }) {
