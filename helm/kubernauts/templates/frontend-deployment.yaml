@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernauts-frontend
+  labels:
+    app: kubernauts-frontend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: kubernauts-frontend
+  template:
+    metadata:
+      labels:
+        app: kubernauts-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.image.frontend }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          resources: {{- toYaml .Values.resources.frontend | nindent 12 }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: kubernauts-nginx
