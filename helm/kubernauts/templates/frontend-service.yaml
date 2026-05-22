@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernauts-frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: kubernauts-frontend
+  ports:
+    - port: 80
+      targetPort: 80

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernauts-backend
+  labels:
+    app: kubernauts-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubernauts-backend
+  template:
+    metadata:
+      labels:
+        app: kubernauts-backend
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      containers:
+        - name: backend
+          image: {{ .Values.image.backend }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GAME_MODE
+              value: {{ .Values.game.mode | quote }}
+            - name: GAME_SESSION_NAMESPACE
+              value: {{ .Values.game.sessionNamespace | quote }}
+            - name: GAME_SESSION_TTL_MINUTES
+              value: {{ .Values.game.sessionTtlMinutes | quote }}
+            - name: SPRING_CONFIG_LOCATION
+              value: "file:/config/application.properties"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          resources: {{ toYaml .Values.resources.backend | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+      volumes:
+        - name: config
+          configMap:
+            name: kubernauts-config

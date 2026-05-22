@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crew-quarters
+  labels:
+    app: crew-quarters
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crew-quarters
+  template:
+    metadata:
+      labels:
+        app: crew-quarters
+    spec:
+      containers:
+        - name: crew
+          image: busybox
+          command: ["sh", "-c", "exit 1"]   # always crashes → CrashLoopBackOff
+          resources:
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
