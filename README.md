@@ -14,8 +14,8 @@ Set these in GitHub before pushing so CI can publish images:
 
 The workflow publishes:
 
-- `docker.io/c-brennan81/kubernauts-backend:main`
-- `docker.io/c-brennan81/kubernauts-frontend:main`
+- `docker.io/Emberflaw/kubernauts-backend:main`
+- `docker.io/Emberflaw/kubernauts-frontend:main`
 
 ### Install from the published Helm repo
 
