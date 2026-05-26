@@ -1,5 +1,5 @@
 name: Build and Push Docker Images
-
+# Triggered with updated Docker Hub token (emberflaw)
 on:
   push:
     branches:
