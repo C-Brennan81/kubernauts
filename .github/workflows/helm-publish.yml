@@ -23,25 +23,27 @@ jobs:
 
       - name: Package chart
         run: |
+          rm -rf .helm-release
+          mkdir .helm-release
           helm package helm/kubernauts --destination .helm-release
 
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Copy chart and update index
+      - name: Build gh-pages branch contents
         run: |
+          rm -rf gh-pages
+          mkdir gh-pages
           cp .helm-release/*.tgz gh-pages/
           helm repo index gh-pages/ --url https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
 
       - name: Push to gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd gh-pages
+          git init
+          git checkout -b gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Release chart ${{ github.ref_name }}" || echo "Nothing to commit"
-          git push
+          git commit -m "Release chart ${{ github.ref_name }}" || git commit --allow-empty -m "Release chart ${{ github.ref_name }}"
+          git remote add origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          git push -u origin gh-pages --force

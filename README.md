@@ -6,6 +6,16 @@ the ship's AI (Kubernetes Learning INtelligence Kernel).
 
 ## Helm install
 
+### Install from the published Helm repo
+
+```bash
+helm repo add kubernauts https://C-Brennan81.github.io/kubernauts
+helm repo update
+helm install kubernauts kubernauts/kubernauts
+```
+
+### Install from the local chart folder
+
 ```bash
 # Simulation mode (no cluster permissions needed)
 helm install kubernauts ./helm/kubernauts

@@ -9,6 +9,6 @@ entries:
     name: kubernauts
     type: application
     urls:
-    - https://C-Brennan81.github.io/kubernauts-repo/kubernauts-1.0.0.tgz
+    - https://C-Brennan81.github.io/kubernauts/kubernauts-1.0.0.tgz
     version: 1.0.0
 generated: "2026-05-26T13:49:07.7844656+01:00"
