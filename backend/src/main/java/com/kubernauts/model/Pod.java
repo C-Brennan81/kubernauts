@@ -1,5 +1,6 @@
 package com.kubernauts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Pod {
     private int restartCount = 0;
     private String sector = "default"; // maps to k8s namespace
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "session_id")
     private GameSession session;

@@ -1,5 +1,6 @@
 package com.kubernauts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Node {
     private int cpuUsed = 0;
     private int memoryUsed = 0;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "session_id")
     private GameSession session;

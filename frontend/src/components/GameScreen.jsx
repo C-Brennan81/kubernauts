@@ -58,8 +58,8 @@ export default function GameScreen({ session }) {
     const schedule = () => {
       const delay = 45000 + Math.random() * 45000
       return setTimeout(async () => {
-        const data = await getIdleComment()
-        setKlinkMessages(prev => [...prev, { text: data.message, type: 'idle' }])
+        const msg = await getIdleComment()
+        setKlinkMessages(prev => [...prev, { text: msg, type: 'idle' }])
         idleTimerRef.current = schedule()
       }, delay)
     }
@@ -68,15 +68,18 @@ export default function GameScreen({ session }) {
   }, [])
 
   const handleCommand = async (cmd) => {
-    const result = await sendCommand(sessionId, cmd)
-    if (result.state) {
-      setStationState(result.state)
-      // Show leaderboard when campaign completes (scenario advances past 20)
-      if (result.scenarioComplete && result.state.currentScenario >= 20) {
-        getLeaderboard().then(setLeaderboard)
+    try {
+      const result = await sendCommand(sessionId, cmd)
+      if (result.state) {
+        setStationState(result.state)
+        if (result.scenarioComplete && result.state.currentScenario >= 20) {
+          getLeaderboard().then(setLeaderboard)
+        }
       }
+      return result.output ?? '(no response)'
+    } catch (err) {
+      return `Error: ${err.message} — is the backend running?`
     }
-    return result.output
   }
 
   const alert      = stationState?.alertLevel ?? 'GREEN'
