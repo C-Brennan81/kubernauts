@@ -10,13 +10,12 @@ the ship's AI (Kubernetes Learning INtelligence Kernel).
 
 Set these in GitHub before pushing so CI can publish images:
 
-- Repository variable: `DOCKERHUB_USERNAME`
 - Repository secret: `DOCKERHUB_TOKEN`
 
 The workflow publishes:
 
-- `docker.io/<DOCKERHUB_USERNAME>/kubernauts-backend:main`
-- `docker.io/<DOCKERHUB_USERNAME>/kubernauts-frontend:main`
+- `docker.io/c-brennan81/kubernauts-backend:main`
+- `docker.io/c-brennan81/kubernauts-frontend:main`
 
 ### Install from the published Helm repo
 
