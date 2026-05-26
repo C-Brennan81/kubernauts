@@ -1,0 +1,47 @@
+replicaCount: 1
+
+image:
+  backend: ghcr.io/kubernauts/backend:latest
+  frontend: ghcr.io/kubernauts/frontend:latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  backendPort: 8080
+  frontendPort: 80
+
+ingress:
+  enabled: true
+  host: kubernauts.local
+  tls: false
+
+game:
+  mode: simulation  # simulation or cluster
+  sessionNamespace: kubernauts-sessions
+  sessionTtlMinutes: 30
+
+resources:
+  backend:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  frontend:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+serviceAccount:
+  name: kubernauts
+

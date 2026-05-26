@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  kubernauts:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-05-26T13:49:07.7867001+01:00"
+    description: Kubernetes learning game with KLINK AI
+    digest: 822a6c4adaf57424edd324e04a4a6c2f8ca10d186b84c223b4f5135518d0903b
+    name: kubernauts
+    type: application
+    urls:
+    - https://C-Brennan81.github.io/kubernauts-repo/kubernauts-1.0.0.tgz
+    version: 1.0.0
+generated: "2026-05-26T13:49:07.7844656+01:00"

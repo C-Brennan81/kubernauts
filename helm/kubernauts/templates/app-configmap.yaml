@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubernauts-config
+  labels:
+    {{- include "kubernauts.labels" . | nindent 4 }}
+data:
+  application.properties: |
+    spring.application.name=kubernauts
+    server.port=8080
+    spring.datasource.url=jdbc:h2:mem:kubernauts
+    spring.datasource.driver-class-name=org.h2.Driver
+    spring.jpa.hibernate.ddl-auto=create-drop
+    spring.h2.console.enabled=false
+    cors.allowed-origins=http://{{ .Values.ingress.host }}
+    game.mode={{ .Values.game.mode }}
+    game.session-namespace={{ .Values.game.sessionNamespace }}
+    game.session-ttl-minutes={{ .Values.game.sessionTtlMinutes }}
