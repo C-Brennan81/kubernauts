@@ -33,14 +33,14 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: Emberflaw
+          username: emberflaw
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: docker.io/Emberflaw/${{ matrix.image-name }}
+          images: docker.io/emberflaw/${{ matrix.image-name }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}

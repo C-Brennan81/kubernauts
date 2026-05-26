@@ -2,8 +2,8 @@ replicaCount: 1
 
 image:
   # Docker Hub image names produced by the CI workflow
-  backend: docker.io/Emberflaw/kubernauts-backend:main
-  frontend: docker.io/Emberflaw/kubernauts-frontend:main
+  backend: docker.io/emberflaw/kubernauts-backend:main
+  frontend: docker.io/emberflaw/kubernauts-frontend:main
   pullPolicy: IfNotPresent
 
 service:
