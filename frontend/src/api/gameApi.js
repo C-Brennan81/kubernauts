@@ -15,7 +15,19 @@ export async function sendCommand(sessionId, command) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ command })
   })
-  return res.json()
+  let data = null
+  try {
+    data = await res.json()
+  } catch {
+    // If the backend returns a non-JSON error page, surface the HTTP status instead of failing silently.
+  }
+
+  if (!res.ok) {
+    const message = data?.message || data?.error || `Command failed (${res.status})`
+    throw new Error(message)
+  }
+
+  return data
 }
 
 export async function getState(sessionId) {

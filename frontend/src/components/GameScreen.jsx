@@ -68,15 +68,19 @@ export default function GameScreen({ session }) {
   }, [])
 
   const handleCommand = async (cmd) => {
-    const result = await sendCommand(sessionId, cmd)
-    if (result.state) {
-      setStationState(result.state)
-      // Show leaderboard when campaign completes (scenario advances past 20)
-      if (result.scenarioComplete && result.state.currentScenario >= 20) {
-        getLeaderboard().then(setLeaderboard)
+    try {
+      const result = await sendCommand(sessionId, cmd)
+      if (result?.state) {
+        setStationState(result.state)
+        // Show leaderboard when campaign completes (scenario advances past 20)
+        if (result.scenarioComplete && result.state.currentScenario >= 20) {
+          getLeaderboard().then(setLeaderboard)
+        }
       }
+      return result?.output || result?.klinkMessage || result?.message || ''
+    } catch (err) {
+      return `Command error: ${err?.message || 'unknown error'}`
     }
-    return result.output
   }
 
   const alert      = stationState?.alertLevel ?? 'GREEN'

@@ -67,11 +67,17 @@ export default function Terminal({ onCommand }) {
     setHistIdx(-1)
     setInput('')
     setSuggestion('')
-    const output = await onCommand(cmd)
-    if (output === '__CLEAR__') {
-      setLines([{ type: 'system', text: 'Terminal cleared.' }])
-    } else if (output) {
-      pushLine('output', output)
+    try {
+      const output = await onCommand(cmd)
+      if (output === '__CLEAR__') {
+        setLines([{ type: 'system', text: 'Terminal cleared.' }])
+      } else if (typeof output === 'string' && output.trim()) {
+        pushLine('output', output)
+      } else {
+        pushLine('system', 'No terminal output returned.')
+      }
+    } catch (err) {
+      pushLine('system', `Command error: ${err?.message || 'unknown error'}`)
     }
   }
 
