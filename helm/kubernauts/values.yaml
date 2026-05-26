@@ -1,12 +1,10 @@
 replicaCount: 1
 
 image:
-  # Use the exact GHCR paths produced by CI (include the GitHub owner/org)
-  backend: ghcr.io/c-brennan81/kubernauts/backend:main
-  frontend: ghcr.io/c-brennan81/kubernauts/frontend:main
+  # Docker Hub image names produced by the CI workflow
+  backend: docker.io/c-brennan81/kubernauts-backend:main
+  frontend: docker.io/c-brennan81/kubernauts-frontend:main
   pullPolicy: IfNotPresent
-  # If you need image pull secrets (private images), list secret names here
-  pullSecrets: []
 
 service:
   type: ClusterIP
